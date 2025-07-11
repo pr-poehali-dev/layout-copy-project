@@ -40,6 +40,7 @@ interface Listing {
 
 const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [hasGradient, setHasGradient] = useState(true);
   const [language, setLanguage] = useState<"ru" | "en">("ru");
   const [isAdmin, setIsAdmin] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "gallery">("list");
@@ -194,13 +195,18 @@ const Index = () => {
     return `${price} ${symbols[currency as keyof typeof symbols]}`;
   };
 
+  const getBackgroundClasses = () => {
+    if (hasGradient) {
+      return isDarkMode
+        ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white"
+        : "bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500";
+    }
+    return isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50";
+  };
+
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${
-        isDarkMode
-          ? "bg-gray-900 text-white"
-          : "bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500"
-      }`}
+      className={`min-h-screen transition-all duration-300 ${getBackgroundClasses()}`}
     >
       {/* Header */}
       <header
@@ -250,6 +256,16 @@ const Index = () => {
                 onClick={() => setIsDarkMode(!isDarkMode)}
               >
                 <Icon name={isDarkMode ? "Sun" : "Moon"} size={14} />
+              </Button>
+
+              <Button
+                variant={hasGradient ? "default" : "outline"}
+                size="sm"
+                className="h-8 w-8 sm:h-9 sm:w-auto p-1 sm:px-3"
+                onClick={() => setHasGradient(!hasGradient)}
+                title={hasGradient ? "Отключить градиент" : "Включить градиент"}
+              >
+                <Icon name={hasGradient ? "Palette" : "Square"} size={14} />
               </Button>
 
               {isAdmin && (
