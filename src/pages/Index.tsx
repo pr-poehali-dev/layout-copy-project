@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
 import Icon from "@/components/ui/icon";
+import SocialBanner from "@/components/SocialBanner";
 
 interface Listing {
   id: string;
@@ -705,6 +706,8 @@ const Index = () => {
             </Card>
           ))}
         </div>
+
+        <SocialBanner isDarkMode={isDarkMode} hasGradient={hasGradient} />
       </div>
     </div>
   );
