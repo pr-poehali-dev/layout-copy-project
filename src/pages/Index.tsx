@@ -49,6 +49,7 @@ const Index = () => {
     "newest",
   );
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
+  const [currencyFilter, setCurrencyFilter] = useState<string>("USDT");
   const [currentTab, setCurrentTab] = useState<"public" | "my" | "favorites">(
     "public",
   );
@@ -71,7 +72,7 @@ const Index = () => {
     "Education",
     "Business",
   ];
-  const currencies = ["RUB", "USD", "EUR", "LTC"];
+  const currencies = ["USDT", "RUB", "USD", "EUR", "LTC"];
 
   const sampleListings: Listing[] = [
     {
@@ -136,8 +137,9 @@ const Index = () => {
       newest: "Сначала новые",
       cheapest: "Сначала дешевые",
       expensive: "Сначала дорогие",
-      category: "Категория",
+      category: "Все категории",
       all: "Все",
+      currency: "Валюта",
       reset: "Сбросить фильтры",
       members: "участников",
       views: "просмотров",
@@ -160,8 +162,9 @@ const Index = () => {
       newest: "Newest",
       cheapest: "Cheapest",
       expensive: "Most Expensive",
-      category: "Category",
+      category: "All Categories",
       all: "All",
+      currency: "Currency",
       reset: "Reset Filters",
       members: "members",
       views: "views",
@@ -192,7 +195,7 @@ const Index = () => {
   };
 
   const formatPrice = (price: number, currency: string) => {
-    const symbols = { RUB: "₽", USD: "$", EUR: "€", LTC: "LTC" };
+    const symbols = { RUB: "₽", USD: "$", EUR: "€", LTC: "LTC", USDT: "USDT" };
     return `${price} ${symbols[currency as keyof typeof symbols]}`;
   };
 
@@ -462,13 +465,6 @@ const Index = () => {
         >
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center">
             <div className="flex items-center gap-2">
-              <Label
-                className={`text-xs sm:text-sm ${
-                  isDarkMode ? "text-gray-200" : "text-gray-700"
-                }`}
-              >
-                {t.sortBy}:
-              </Label>
               <Select
                 value={sortBy}
                 onValueChange={(value: any) => setSortBy(value)}
@@ -485,22 +481,30 @@ const Index = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <Label
-                className={`text-xs sm:text-sm ${
-                  isDarkMode ? "text-gray-200" : "text-gray-700"
-                }`}
-              >
-                {t.category}:
-              </Label>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                <SelectTrigger className="w-28 sm:w-32 h-8 sm:h-9 text-xs sm:text-sm">
-                  <SelectValue />
+                <SelectTrigger className="w-32 sm:w-36 h-8 sm:h-9 text-xs sm:text-sm">
+                  <SelectValue placeholder={t.category} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">{t.all}</SelectItem>
+                  <SelectItem value="all">{t.category}</SelectItem>
                   {categories.map((cat) => (
                     <SelectItem key={cat} value={cat}>
                       {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Select value={currencyFilter} onValueChange={setCurrencyFilter}>
+                <SelectTrigger className="w-24 sm:w-28 h-8 sm:h-9 text-xs sm:text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {currencies.map((currency) => (
+                    <SelectItem key={currency} value={currency}>
+                      {currency}
                     </SelectItem>
                   ))}
                 </SelectContent>
