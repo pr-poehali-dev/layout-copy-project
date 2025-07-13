@@ -70,6 +70,13 @@ const Index = () => {
     }
   }, [activeInfoSection]);
 
+  // Auto scroll to top when opening info sections
+  useEffect(() => {
+    if (activeInfoSection !== "none") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [activeInfoSection]);
+
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
