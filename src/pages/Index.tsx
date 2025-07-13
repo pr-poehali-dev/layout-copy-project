@@ -709,18 +709,17 @@ const Index = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      className={`h-8 px-2 sm:h-9 sm:px-3 text-xs sm:text-sm border-red-500 text-red-500 hover:bg-red-50 ${
+                      className={`h-8 w-8 p-0 border-red-500 text-red-500 hover:bg-red-50 ${
                         isDarkMode
                           ? "border-red-500 text-red-400 hover:bg-red-950/20"
                           : "border-red-500 text-red-500 hover:bg-red-50"
                       }`}
+                      title={t.report}
                     >
                       <Icon
                         name="Flag"
-                        size={12}
-                        className="sm:w-3.5 sm:h-3.5 sm:mr-1"
+                        size={14}
                       />
-                      <span className="hidden sm:inline">{t.report}</span>
                     </Button>
                   </div>
                 </div>
