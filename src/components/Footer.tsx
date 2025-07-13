@@ -22,7 +22,7 @@ const Footer = ({ isDarkMode }: FooterProps) => {
             </span>
             <div className="flex items-center gap-4">
               <a
-                href="/privacy"
+                href="/terms?tab=privacy"
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"
@@ -32,7 +32,7 @@ const Footer = ({ isDarkMode }: FooterProps) => {
                 Политика конфиденциальности
               </a>
               <a
-                href="/terms"
+                href="/terms?tab=terms"
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"

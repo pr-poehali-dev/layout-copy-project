@@ -19,7 +19,29 @@ export const translations = {
     report: "Пожаловаться",
     promo: "АКЦИЯ",
     discount: "Скидка на размещение объявлений",
-    limitedTime: "Ограниченное предложение"
+    limitedTime: "Ограниченное предложение",
+    
+    // Navigation tabs
+    mainMenu: "Главное меню",
+    termsOfService: "Правила площадки",
+    privacyPolicy: "Политика конфиденциальности",
+    back: "Назад",
+    
+    // Menu section
+    aboutPlatform: "О платформе Discord Ads Board",
+    aboutText: "Добро пожаловать на Discord Ads Board — ведущую площадку для размещения рекламы Discord серверов. Наш сервис помогает владельцам серверов найти новых участников, а пользователям — открыть для себя интересные сообщества.",
+    ourFeatures: "Наши возможности",
+    createListings: "Размещение объявлений",
+    searchCommunities: "Поиск сообществ",
+    analytics: "Аналитика",
+    favoriteFeature: "Избранное",
+    platformStats: "Статистика платформы",
+    servers: "Серверов",
+    participants: "Участников",
+    contactUs: "Связь с нами",
+    questionsText: "Есть вопросы или предложения? Мы всегда готовы помочь!",
+    discordSupport: "Discord сервер поддержки",
+    emailSupport: "Email: support@adcord.net"
   },
   en: {
     title: "Classifieds Board",
@@ -41,6 +63,28 @@ export const translations = {
     report: "Report",
     promo: "PROMO",
     discount: "Discount on listing placement",
-    limitedTime: "Limited time offer"
+    limitedTime: "Limited time offer",
+    
+    // Navigation tabs
+    mainMenu: "Main Menu",
+    termsOfService: "Terms of Service",
+    privacyPolicy: "Privacy Policy",
+    back: "Back",
+    
+    // Menu section
+    aboutPlatform: "About Discord Ads Board Platform",
+    aboutText: "Welcome to Discord Ads Board — the leading platform for advertising Discord servers. Our service helps server owners find new members and users discover interesting communities.",
+    ourFeatures: "Our Features",
+    createListings: "Create Listings",
+    searchCommunities: "Search Communities",
+    analytics: "Analytics",
+    favoriteFeature: "Favorites",
+    platformStats: "Platform Statistics",
+    servers: "Servers",
+    participants: "Participants",
+    contactUs: "Contact Us",
+    questionsText: "Have questions or suggestions? We're always ready to help!",
+    discordSupport: "Discord Support Server",
+    emailSupport: "Email: support@adcord.net"
   }
 };
