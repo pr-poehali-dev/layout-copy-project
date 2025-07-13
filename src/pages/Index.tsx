@@ -217,67 +217,72 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Promo Banner */}
-      <PromoBanner language={language} />
+      {/* Main Content - Hide when info section is active */}
+      {activeInfoSection === "none" && (
+        <div className="animate-in fade-in duration-300">
+          {/* Promo Banner */}
+          <PromoBanner language={language} />
 
-      {/* Main Content */}
-      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
-        {/* Filters */}
-        <Filters 
-          isDarkMode={isDarkMode}
-          language={language}
-          currentTab={currentTab}
-          setCurrentTab={setCurrentTab}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-          categoryFilter={categoryFilter}
-          setCategoryFilter={setCategoryFilter}
-          currencyFilter={currencyFilter}
-          setCurrencyFilter={setCurrencyFilter}
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-          categories={categories}
-          currencies={currencies}
-        />
-
-        {/* Listings */}
-        <div
-          className={`grid gap-3 sm:gap-4 ${
-            viewMode === "gallery"
-              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-              : "grid-cols-1"
-          }`}
-        >
-          {sampleListings.map((listing) => (
-            <ListingCard
-              key={listing.id}
-              listing={listing}
+          {/* Main Content */}
+          <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
+            {/* Filters */}
+            <Filters 
               isDarkMode={isDarkMode}
               language={language}
-              formatPrice={formatPrice}
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              currencyFilter={currencyFilter}
+              setCurrencyFilter={setCurrencyFilter}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+              categories={categories}
+              currencies={currencies}
             />
-          ))}
+
+            {/* Listings */}
+            <div
+              className={`grid gap-3 sm:gap-4 ${
+                viewMode === "gallery"
+                  ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                  : "grid-cols-1"
+              }`}
+            >
+              {sampleListings.map((listing) => (
+                <ListingCard
+                  key={listing.id}
+                  listing={listing}
+                  isDarkMode={isDarkMode}
+                  language={language}
+                  formatPrice={formatPrice}
+                />
+              ))}
+            </div>
+
+            <SocialBanner isDarkMode={isDarkMode} hasGradient={hasGradient} />
+          </div>
         </div>
+      )}
 
-        <SocialBanner isDarkMode={isDarkMode} hasGradient={hasGradient} />
-      </div>
-
-      {/* Info Sections */}
+      {/* Info Sections - Full Screen */}
       {activeInfoSection !== "none" && (
-        <div className={`border-t ${isDarkMode ? "border-gray-700 bg-gray-800/50" : "border-gray-200 bg-gray-50/50"} mt-8`}>
+        <div className={`min-h-screen animate-in fade-in duration-300 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}>
           <div className="container mx-auto px-4 py-8">
-            <div className={`max-w-4xl mx-auto bg-white/95 ${isDarkMode ? "bg-gray-800/95 border-gray-700 text-white" : ""} backdrop-blur-sm rounded-lg border`}>
+            <div className={`max-w-4xl mx-auto ${isDarkMode ? "bg-gray-800/95 border-gray-700 text-white" : "bg-white/95"} backdrop-blur-sm rounded-lg border shadow-lg`}>
               {/* Header */}
               <div className="p-6 border-b">
                 <div className="flex items-center gap-3 mb-6">
                   <Button 
-                    variant="outline" 
+                    variant="default" 
                     size="sm"
                     onClick={() => setActiveInfoSection("none")}
-                    className={isDarkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : ""}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
                   >
-                    <Icon name="X" size={16} className="mr-2" />
-                    Закрыть
+                    <Icon name="ArrowLeft" size={16} className="mr-2" />
+                    Вернуться к объявлениям
                   </Button>
                 </div>
                 
