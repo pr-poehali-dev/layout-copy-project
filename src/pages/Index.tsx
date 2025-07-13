@@ -1,12 +1,17 @@
 import { useState } from "react";
 import SocialBanner from "@/components/SocialBanner";
 import Footer from "@/components/Footer";
-import AppHeader from "@/components/layout/AppHeader";
 import PromoBanner from "@/components/PromoBanner";
 import Filters from "@/components/Filters";
 import ListingCard from "@/components/ListingCard";
-import AddListingDialog from "@/components/AddListingDialog";
-import { Listing, Language, SortBy, ViewMode, TabType, FormData } from "@/types/listing";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Icon from "@/components/ui/icon";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Language, SortBy, ViewMode, TabType, FormData } from "@/types/listing";
 import { translations } from "@/constants/translations";
 import { sampleListings } from "@/data/sampleListings";
 import { formatPrice, getBackgroundClasses } from "@/utils/formatters";
@@ -60,23 +65,16 @@ const Index = () => {
       className={`min-h-screen transition-all duration-300 ${getBackgroundClasses(isDarkMode, hasGradient)}`}
     >
       {/* Header */}
-      <AppHeader 
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-        hasGradient={hasGradient}
-        setHasGradient={setHasGradient}
-        language={language}
-        setLanguage={setLanguage}
-        isAdmin={isAdmin}
-        setIsAdmin={setIsAdmin}
-        showAddForm={showAddForm}
-        setShowAddForm={setShowAddForm}
-      />
-
-      {/* Promo Banner */}
-      <PromoBanner language={language} />
+      <header
+        className={`${
+          isDarkMode
+            ? "bg-gray-800/95 border-gray-700"
+            : "bg-white/95 border-gray-200"
+        } backdrop-blur-sm border-b sticky top-0 z-50`}
+      >
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
+            {/* Logo */}
             <a href="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
               <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xs sm:text-sm">
@@ -94,10 +92,12 @@ const Index = () => {
               </div>
             </a>
 
-            <div className="flex items-center gap-1 sm:gap-3">
+            {/* Controls */}
+            <div className="flex items-center gap-2 sm:gap-4">
+              {/* Language Selector */}
               <Select
                 value={language}
-                onValueChange={(value: "ru" | "en") => setLanguage(value)}
+                onValueChange={(value: Language) => setLanguage(value)}
               >
                 <SelectTrigger className="w-12 sm:w-16 h-8 sm:h-9">
                   <SelectValue />
@@ -105,6 +105,158 @@ const Index = () => {
                 <SelectContent>
                   <SelectItem value="ru">RU</SelectItem>
                   <SelectItem value="en">EN</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* Theme Controls */}
+              <Button
+                variant={isDarkMode ? "default" : "outline"}
+                size="sm"
+                className="h-8 w-8 sm:h-9 sm:w-auto p-1 sm:px-3"
+                onClick={() => setIsDarkMode(!isDarkMode)}
+              >
+                <Icon name={isDarkMode ? "Sun" : "Moon"} size={14} />
+              </Button>
+
+              <Button
+                variant={hasGradient ? "default" : "outline"}
+                size="sm"
+                className="h-8 w-8 sm:h-9 sm:w-auto p-1 sm:px-3"
+                onClick={() => setHasGradient(!hasGradient)}
+              >
+                <Icon name={hasGradient ? "Palette" : "Square"} size={14} />
+              </Button>
+
+              {/* Add Listing Button */}
+              <Dialog open={showAddForm} onOpenChange={setShowAddForm}>
+                <DialogTrigger asChild>
+                  <Button
+                    size="sm"
+                    className="bg-blue-600 hover:bg-blue-700 h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm"
+                  >
+                    <Icon name="Plus" size={14} className="sm:mr-1" />
+                    <span className="hidden sm:inline">{t.addListing}</span>
+                  </Button>
+                </DialogTrigger>
+                <DialogContent
+                  className={`max-w-md ${
+                    isDarkMode ? "bg-gray-800 border-gray-700 text-white" : ""
+                  }`}
+                >
+                  <DialogHeader>
+                    <DialogTitle>{t.addListing}</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="title">Название сервера</Label>
+                      <Input
+                        id="title"
+                        value={formData.title}
+                        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                        className={isDarkMode ? "bg-gray-700 border-gray-600" : ""}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="description">Описание</Label>
+                      <Textarea
+                        id="description"
+                        value={formData.description}
+                        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                        className={isDarkMode ? "bg-gray-700 border-gray-600" : ""}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="price">Цена</Label>
+                        <Input
+                          id="price"
+                          type="number"
+                          value={formData.price}
+                          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                          className={isDarkMode ? "bg-gray-700 border-gray-600" : ""}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="currency">Валюта</Label>
+                        <Select
+                          value={formData.currency}
+                          onValueChange={(value) => setFormData({ ...formData, currency: value })}
+                        >
+                          <SelectTrigger className={isDarkMode ? "bg-gray-700 border-gray-600" : ""}>
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="RUB">RUB</SelectItem>
+                            <SelectItem value="USD">USD</SelectItem>
+                            <SelectItem value="EUR">EUR</SelectItem>
+                            <SelectItem value="LTC">LTC</SelectItem>
+                            <SelectItem value="USDT">USDT</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+                      Опубликовать
+                    </Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Promo Banner */}
+      <PromoBanner language={language} />
+
+      {/* Main Content */}
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
+        {/* Filters */}
+        <Filters 
+          isDarkMode={isDarkMode}
+          language={language}
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+          sortBy={sortBy}
+          setSortBy={setSortBy}
+          categoryFilter={categoryFilter}
+          setCategoryFilter={setCategoryFilter}
+          currencyFilter={currencyFilter}
+          setCurrencyFilter={setCurrencyFilter}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          categories={categories}
+          currencies={currencies}
+        />
+
+        {/* Listings */}
+        <div
+          className={`grid gap-3 sm:gap-4 ${
+            viewMode === "gallery"
+              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+              : "grid-cols-1"
+          }`}
+        >
+          {sampleListings.map((listing) => (
+            <ListingCard
+              key={listing.id}
+              listing={listing}
+              isDarkMode={isDarkMode}
+              language={language}
+              formatPrice={formatPrice}
+            />
+          ))}
+        </div>
+
+        <SocialBanner isDarkMode={isDarkMode} hasGradient={hasGradient} />
+      </div>
+      
+      <Footer isDarkMode={isDarkMode} />
+    </div>
+  );
+};
+
+export default Index;
                 </SelectContent>
               </Select>
 
