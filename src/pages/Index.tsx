@@ -225,7 +225,7 @@ const Index = () => {
       >
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 sm:gap-3">
+            <a href="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
               <div className="w-6 h-6 sm:w-8 sm:h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-xs sm:text-sm">
                   Ad
@@ -240,7 +240,7 @@ const Index = () => {
                   {t.title}
                 </h1>
               </div>
-            </div>
+            </a>
 
             <div className="flex items-center gap-1 sm:gap-3">
               <Select
