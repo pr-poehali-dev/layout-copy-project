@@ -1,10 +1,20 @@
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface FooterProps {
   isDarkMode: boolean;
 }
 
 const Footer = ({ isDarkMode }: FooterProps) => {
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
   return (
     <footer
       className={`border-t mt-16 py-6 ${
@@ -21,8 +31,8 @@ const Footer = ({ isDarkMode }: FooterProps) => {
               © 2025–2025 adcord.net
             </span>
             <div className="flex items-center gap-4">
-              <a
-                href="#"
+              <button
+                onClick={() => setShowPrivacyPolicy(true)}
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"
@@ -30,9 +40,9 @@ const Footer = ({ isDarkMode }: FooterProps) => {
                 }`}
               >
                 Политика конфиденциальности
-              </a>
-              <a
-                href="#"
+              </button>
+              <button
+                onClick={() => setShowTerms(true)}
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"
@@ -40,7 +50,7 @@ const Footer = ({ isDarkMode }: FooterProps) => {
                 }`}
               >
                 Правила площадки
-              </a>
+              </button>
             </div>
           </div>
 
@@ -110,6 +120,130 @@ const Footer = ({ isDarkMode }: FooterProps) => {
           </div>
         </div>
       </div>
+
+      {/* Privacy Policy Modal */}
+      <Dialog open={showPrivacyPolicy} onOpenChange={setShowPrivacyPolicy}>
+        <DialogContent className="max-w-2xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>Политика конфиденциальности</DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="max-h-[60vh] pr-4">
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">1. Общие положения</h3>
+              <p className="text-sm leading-relaxed">
+                Настоящая Политика конфиденциальности определяет порядок обработки 
+                персональных данных пользователей сервиса adcord.net. Мы обязуемся 
+                защищать конфиденциальность пользователей и обеспечивать безопасность 
+                предоставляемой информации.
+              </p>
+
+              <h3 className="text-lg font-semibold">2. Собираемая информация</h3>
+              <p className="text-sm leading-relaxed">
+                Мы можем собирать следующие данные:
+              </p>
+              <ul className="text-sm list-disc list-inside space-y-1 ml-4">
+                <li>Контактная информация (email, никнейм)</li>
+                <li>Информация о Discord серверах</li>
+                <li>Данные об активности на платформе</li>
+                <li>Техническая информация (IP-адрес, браузер, устройство)</li>
+              </ul>
+
+              <h3 className="text-lg font-semibold">3. Использование данных</h3>
+              <p className="text-sm leading-relaxed">
+                Собранная информация используется для:
+              </p>
+              <ul className="text-sm list-disc list-inside space-y-1 ml-4">
+                <li>Предоставления услуг платформы</li>
+                <li>Улучшения качества сервиса</li>
+                <li>Обеспечения безопасности</li>
+                <li>Связи с пользователями</li>
+              </ul>
+
+              <h3 className="text-lg font-semibold">4. Защита данных</h3>
+              <p className="text-sm leading-relaxed">
+                Мы применяем современные методы защиты для обеспечения безопасности 
+                ваших данных. Доступ к персональной информации имеют только 
+                уполномоченные сотрудники.
+              </p>
+
+              <h3 className="text-lg font-semibold">5. Права пользователей</h3>
+              <p className="text-sm leading-relaxed">
+                Вы имеете право на доступ, исправление, удаление своих персональных 
+                данных, а также на ограничение их обработки.
+              </p>
+
+              <h3 className="text-lg font-semibold">6. Контактная информация</h3>
+              <p className="text-sm leading-relaxed">
+                По вопросам обработки персональных данных обращайтесь к нам через 
+                Discord сервер или официальные каналы связи.
+              </p>
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
+
+      {/* Terms Modal */}
+      <Dialog open={showTerms} onOpenChange={setShowTerms}>
+        <DialogContent className="max-w-2xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>Правила площадки</DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="max-h-[60vh] pr-4">
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">1. Общие правила</h3>
+              <p className="text-sm leading-relaxed">
+                Используя платформу adcord.net, вы соглашаетесь соблюдать данные правила. 
+                Нарушение правил может привести к блокировке аккаунта.
+              </p>
+
+              <h3 className="text-lg font-semibold">2. Размещение объявлений</h3>
+              <ul className="text-sm list-disc list-inside space-y-1 ml-4">
+                <li>Запрещено размещение ложной или вводящей в заблуждение информации</li>
+                <li>Описания должны соответствовать содержанию сервера</li>
+                <li>Цены должны быть указаны честно и корректно</li>
+                <li>Запрещена реклама серверов с незаконным контентом</li>
+              </ul>
+
+              <h3 className="text-lg font-semibold">3. Запрещенный контент</h3>
+              <p className="text-sm leading-relaxed">Запрещается размещение объявлений, содержащих:</p>
+              <ul className="text-sm list-disc list-inside space-y-1 ml-4">
+                <li>Материалы для взрослых (18+)</li>
+                <li>Пропаганду экстремизма и терроризма</li>
+                <li>Продажу наркотических средств</li>
+                <li>Мошеннические схемы</li>
+                <li>Спам и массовые рассылки</li>
+              </ul>
+
+              <h3 className="text-lg font-semibold">4. Поведение пользователей</h3>
+              <ul className="text-sm list-disc list-inside space-y-1 ml-4">
+                <li>Уважительное отношение к другим пользователям</li>
+                <li>Запрет на оскорбления и угрозы</li>
+                <li>Недопустимость накрутки показателей</li>
+                <li>Честные отзывы и оценки</li>
+              </ul>
+
+              <h3 className="text-lg font-semibold">5. Модерация</h3>
+              <p className="text-sm leading-relaxed">
+                Администрация оставляет за собой право модерировать контент, 
+                блокировать пользователей и удалять объявления без предварительного 
+                уведомления при нарушении правил.
+              </p>
+
+              <h3 className="text-lg font-semibold">6. Ответственность</h3>
+              <p className="text-sm leading-relaxed">
+                Пользователи несут полную ответственность за размещаемый контент. 
+                Администрация не несет ответственности за сделки между пользователями.
+              </p>
+
+              <h3 className="text-lg font-semibold">7. Изменения правил</h3>
+              <p className="text-sm leading-relaxed">
+                Правила могут изменяться без предварительного уведомления. 
+                Актуальная версия всегда доступна на сайте.
+              </p>
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
     </footer>
   );
 };
