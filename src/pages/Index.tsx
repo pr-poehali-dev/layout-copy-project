@@ -1,187 +1,45 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Switch } from "@/components/ui/switch";
-import Icon from "@/components/ui/icon";
 import SocialBanner from "@/components/SocialBanner";
 import Footer from "@/components/Footer";
+import AppHeader from "@/components/layout/AppHeader";
+import PromoBanner from "@/components/PromoBanner";
+import Filters from "@/components/Filters";
+import ListingCard from "@/components/ListingCard";
+import AddListingDialog from "@/components/AddListingDialog";
+import { Listing, Language, SortBy, ViewMode, TabType, FormData } from "@/types/listing";
+import { translations } from "@/constants/translations";
+import { sampleListings } from "@/data/sampleListings";
+import { formatPrice, getBackgroundClasses } from "@/utils/formatters";
 
-interface Listing {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  currency: "RUB" | "USD" | "EUR" | "LTC";
-  category: string;
-  serverLink: string;
-  memberCount: number;
-  views: number;
-  clicks: number;
-  favorites: number;
-  isFavorite: boolean;
-  createdAt: Date;
-}
+
 
 const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [hasGradient, setHasGradient] = useState(true);
-  const [language, setLanguage] = useState<"ru" | "en">("ru");
+  const [language, setLanguage] = useState<Language>("ru");
   const [isAdmin, setIsAdmin] = useState(false);
-  const [viewMode, setViewMode] = useState<"list" | "gallery">("list");
-  const [sortBy, setSortBy] = useState<"newest" | "cheapest" | "expensive">(
-    "newest",
-  );
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
+  const [sortBy, setSortBy] = useState<SortBy>("newest");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [currencyFilter, setCurrencyFilter] = useState<string>("USDT");
-  const [currentTab, setCurrentTab] = useState<"public" | "my" | "favorites">(
-    "public",
-  );
+  const [currentTab, setCurrentTab] = useState<TabType>("public");
   const [showAddForm, setShowAddForm] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
     price: "",
-    currency: "RUB" as const,
+    currency: "RUB",
     category: "",
     serverLink: "",
   });
 
-  const categories = [
-    "Gaming",
-    "IT",
-    "Finance",
-    "Entertainment",
-    "Education",
-    "Business",
-  ];
+  const categories = ["Игры", "Развлечения", "Финансы", "Образование", "Технологии"];
   const currencies = ["USDT", "RUB", "USD", "EUR", "LTC"];
 
-  const sampleListings: Listing[] = [
-    {
-      id: "1",
-      title: "Elite Gaming Hub",
-      description:
-        "Join our premium Discord server with exclusive gaming content, tournaments, and active community of 50K+ members!",
-      price: 1625,
-      currency: "RUB",
-      category: "Gaming",
-      serverLink: "https://discord.gg/sample",
-      memberCount: 52847,
-      views: 15420,
-      clicks: 2380,
-      favorites: 847,
-      isFavorite: false,
-      createdAt: new Date("2025-01-10"),
-    },
-    {
-      id: "2",
-      title: "Crypto Trading Community",
-      description:
-        "Professional cryptocurrency trading signals and market analysis. Daily insights from experienced traders.",
-      price: 50,
-      currency: "USD",
-      category: "Finance",
-      serverLink: "https://discord.gg/crypto",
-      memberCount: 28450,
-      views: 8920,
-      clicks: 1240,
-      favorites: 326,
-      isFavorite: true,
-      createdAt: new Date("2025-01-09"),
-    },
-    {
-      id: "3",
-      title: "Tech Startup Network",
-      description:
-        "Connect with entrepreneurs, developers, and investors in the tech industry. Weekly networking events.",
-      price: 25,
-      currency: "EUR",
-      category: "IT",
-      serverLink: "https://discord.gg/tech",
-      memberCount: 15680,
-      views: 6540,
-      clicks: 890,
-      favorites: 203,
-      isFavorite: false,
-      createdAt: new Date("2025-01-08"),
-    },
-  ];
 
-  const text = {
-    ru: {
-      title: "Discord Ads Board",
-      subtitle: "Площадка для размещения рекламы Discord серверов",
-      addListing: "Добавить объявление",
-      public: "Публичная лента",
-      my: "Мои объявления",
-      favorites: "Избранное",
-      sortBy: "Сортировка",
-      newest: "Сначала новые",
-      cheapest: "Сначала дешевые",
-      expensive: "Сначала дорогие",
-      category: "Все категории",
-      all: "Все",
-      currency: "Валюта",
-      reset: "Сбросить фильтры",
-      members: "участников",
-      views: "просмотров",
-      clicks: "кликов",
-      favorites: "в избранном",
-      visitServer: "Посетить сервер",
-      contact: "Связаться",
-      report: "Пожаловаться",
-      promo: "СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ",
-      discount: "35% скидка на все размещения!",
-      limitedTime: "Ограниченное время",
-    },
-    en: {
-      title: "Discord Ads Board",
-      subtitle: "Platform for Discord server advertising",
-      addListing: "Add Listing",
-      public: "Public Feed",
-      my: "My Listings",
-      favorites: "Favorites",
-      sortBy: "Sort by",
-      newest: "Newest",
-      cheapest: "Cheapest",
-      expensive: "Most Expensive",
-      category: "All Categories",
-      all: "All",
-      currency: "Currency",
-      reset: "Reset Filters",
-      members: "members",
-      views: "views",
-      clicks: "clicks",
-      favorites: "favorites",
-      visitServer: "Visit Server",
-      contact: "Contact Owner",
-      report: "Report",
-      promo: "SPECIAL PROMO",
-      discount: "35% OFF All Ad Placements!",
-      limitedTime: "Limited Time",
-    },
-  };
 
-  const t = text[language];
+  const t = translations[language];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -197,32 +55,26 @@ const Index = () => {
     });
   };
 
-  const formatPrice = (price: number, currency: string) => {
-    const symbols = { RUB: "₽", USD: "$", EUR: "€", LTC: "LTC", USDT: "USDT" };
-    return `${price} ${symbols[currency as keyof typeof symbols]}`;
-  };
-
-  const getBackgroundClasses = () => {
-    if (hasGradient) {
-      return isDarkMode
-        ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white"
-        : "bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500";
-    }
-    return isDarkMode ? "bg-gray-900 text-white" : "bg-gray-50";
-  };
-
   return (
     <div
-      className={`min-h-screen transition-all duration-300 ${getBackgroundClasses()}`}
+      className={`min-h-screen transition-all duration-300 ${getBackgroundClasses(isDarkMode, hasGradient)}`}
     >
       {/* Header */}
-      <header
-        className={`${
-          isDarkMode
-            ? "bg-gray-800/95 border-gray-700"
-            : "bg-white/95 border-gray-200"
-        } backdrop-blur-sm border-b sticky top-0 z-50`}
-      >
+      <AppHeader 
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+        hasGradient={hasGradient}
+        setHasGradient={setHasGradient}
+        language={language}
+        setLanguage={setLanguage}
+        isAdmin={isAdmin}
+        setIsAdmin={setIsAdmin}
+        showAddForm={showAddForm}
+        setShowAddForm={setShowAddForm}
+      />
+
+      {/* Promo Banner */}
+      <PromoBanner language={language} />
         <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             <a href="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
