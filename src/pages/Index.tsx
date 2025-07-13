@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -62,6 +62,13 @@ const Index = () => {
     setShowAddForm(false);
     setFormData({ title: "", description: "", price: "", currency: "RUB" });
   };
+
+  // Auto scroll to top when opening info sections
+  useEffect(() => {
+    if (activeInfoSection !== "none") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [activeInfoSection]);
 
   return (
     <div

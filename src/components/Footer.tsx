@@ -23,7 +23,10 @@ const Footer = ({ isDarkMode, onShowInfo }: FooterProps) => {
             </span>
             <div className="flex items-center gap-4">
               <button
-                onClick={() => onShowInfo?.("privacy")}
+                onClick={() => {
+                  onShowInfo?.("privacy");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"
@@ -33,7 +36,10 @@ const Footer = ({ isDarkMode, onShowInfo }: FooterProps) => {
                 Политика конфиденциальности
               </button>
               <button
-                onClick={() => onShowInfo?.("terms")}
+                onClick={() => {
+                  onShowInfo?.("terms");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"
