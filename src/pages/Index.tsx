@@ -147,6 +147,7 @@ const Index = () => {
       favorites: "в избранном",
       visitServer: "Посетить сервер",
       contact: "Связаться",
+      report: "Пожаловаться",
       promo: "СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ",
       discount: "35% скидка на все размещения!",
       limitedTime: "Ограниченное время",
@@ -172,6 +173,7 @@ const Index = () => {
       favorites: "favorites",
       visitServer: "Visit Server",
       contact: "Contact Owner",
+      report: "Report",
       promo: "SPECIAL PROMO",
       discount: "35% OFF All Ad Placements!",
       limitedTime: "Limited Time",
@@ -703,6 +705,22 @@ const Index = () => {
                       className="bg-blue-600 hover:bg-blue-700 h-8 px-2 sm:h-9 sm:px-3 text-xs sm:text-sm"
                     >
                       {t.contact}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className={`h-8 px-2 sm:h-9 sm:px-3 text-xs sm:text-sm border-red-500 text-red-500 hover:bg-red-50 ${
+                        isDarkMode
+                          ? "border-red-500 text-red-400 hover:bg-red-950/20"
+                          : "border-red-500 text-red-500 hover:bg-red-50"
+                      }`}
+                    >
+                      <Icon
+                        name="Flag"
+                        size={12}
+                        className="sm:w-3.5 sm:h-3.5 sm:mr-1"
+                      />
+                      <span className="hidden sm:inline">{t.report}</span>
                     </Button>
                   </div>
                 </div>
