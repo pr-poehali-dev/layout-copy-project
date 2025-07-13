@@ -22,6 +22,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import Icon from "@/components/ui/icon";
 import SocialBanner from "@/components/SocialBanner";
+import Footer from "@/components/Footer";
 
 interface Listing {
   id: string;
@@ -730,6 +731,8 @@ const Index = () => {
 
         <SocialBanner isDarkMode={isDarkMode} hasGradient={hasGradient} />
       </div>
+      
+      <Footer isDarkMode={isDarkMode} />
     </div>
   );
 };
