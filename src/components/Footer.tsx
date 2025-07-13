@@ -2,9 +2,10 @@ import Icon from "@/components/ui/icon";
 
 interface FooterProps {
   isDarkMode: boolean;
+  onShowInfo?: (section: "menu" | "terms" | "privacy") => void;
 }
 
-const Footer = ({ isDarkMode }: FooterProps) => {
+const Footer = ({ isDarkMode, onShowInfo }: FooterProps) => {
   return (
     <footer
       className={`border-t mt-16 py-6 ${
@@ -21,8 +22,8 @@ const Footer = ({ isDarkMode }: FooterProps) => {
               © 2025–2025 adcord.net
             </span>
             <div className="flex items-center gap-4">
-              <a
-                href="/terms?tab=privacy"
+              <button
+                onClick={() => onShowInfo?.("privacy")}
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"
@@ -30,9 +31,9 @@ const Footer = ({ isDarkMode }: FooterProps) => {
                 }`}
               >
                 Политика конфиденциальности
-              </a>
-              <a
-                href="/terms?tab=terms"
+              </button>
+              <button
+                onClick={() => onShowInfo?.("terms")}
                 className={`hover:underline ${
                   isDarkMode
                     ? "text-blue-400 hover:text-blue-300"
@@ -40,7 +41,7 @@ const Footer = ({ isDarkMode }: FooterProps) => {
                 }`}
               >
                 Правила площадки
-              </a>
+              </button>
             </div>
           </div>
 
