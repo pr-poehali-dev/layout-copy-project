@@ -431,21 +431,76 @@ const Messages = () => {
 
             {/* Информация об объявлении */}
             <div className="border-t border-gray-200 pt-4 md:pt-6">
-              <div className="text-xs text-gray-500 uppercase mb-3">ОБЪЯВЛЕНИЕ</div>
-              <div className="border border-gray-200 rounded-lg overflow-hidden">
-                <img 
-                  src={selectedChat.listing.image} 
-                  alt={selectedChat.listing.title}
-                  className="w-full h-24 md:h-32 object-cover"
-                />
-                <div className="p-3">
-                  <h5 className="font-medium text-xs md:text-sm mb-1">{selectedChat.listing.title}</h5>
-                  <div className="text-base md:text-lg font-bold text-blue-600 mb-2">
-                    {selectedChat.listing.price.toLocaleString()} ₽
+              <div className="bg-gray-800 rounded-lg text-white p-4 space-y-3">
+                {/* Заголовок объявления */}
+                <div className="flex items-start gap-3">
+                  <img 
+                    src={selectedChat.listing.image} 
+                    alt={selectedChat.listing.title}
+                    className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-sm">{selectedChat.listing.title}</h3>
+                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-300">
+                      <Icon name="Users" size={12} />
+                      <span>9128O участников</span>
+                    </div>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full text-xs">
-                    Перейти к объявлению
+                  <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-1">
+                    <Icon name="Heart" size={16} />
                   </Button>
+                </div>
+
+                {/* Описание услуг */}
+                <div className="space-y-2 text-sm">
+                  <div className="text-blue-400 underline cursor-pointer">
+                    https://discord.gg/yaoitag
+                  </div>
+                  
+                  <div>
+                    <div className="font-medium">Ping Prices</div>
+                    <div>- 1 Day @here - $100</div>
+                    <div>- 1 Day @everyone - $150</div>
+                  </div>
+                  
+                  <div>
+                    <div className="font-medium">Bundle Deals</div>
+                    <div>- 7d @everyone with Ping On Join - $200</div>
+                    <div>- 7d @everyone with Join DM - $250</div>
+                    <div>- 7d @everyone with Ping On Join & Join DM - $300</div>
+                  </div>
+                  
+                  <div className="text-gray-300">
+                    • Write to discord - @allanwood
+                  </div>
+                </div>
+
+                {/* Статистика */}
+                <div className="flex gap-4 text-xs text-gray-400 pt-2 border-t border-gray-700">
+                  <div className="flex items-center gap-1">
+                    <Icon name="Eye" size={12} />
+                    <span>6 просмотров</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Icon name="MessageCircle" size={12} />
+                    <span>0 лайков</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Icon name="Star" size={12} />
+                    <span>0 в избранном</span>
+                  </div>
+                </div>
+
+                {/* Цена */}
+                <div className="flex items-center justify-between pt-2">
+                  <div>
+                    <div className="text-2xl font-bold">100</div>
+                    <div className="text-xs text-gray-400">USD</div>
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    <div>Общение /</div>
+                    <div>Знакомства</div>
+                  </div>
                 </div>
               </div>
             </div>
