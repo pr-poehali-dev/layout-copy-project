@@ -396,46 +396,37 @@ const Messages = () => {
               </Button>
             </div>
             
-            {/* Информация о пользователе */}
-            <div className="space-y-3 md:space-y-4">
-              <div className="space-y-2">
-                <div className="text-xs text-gray-500 uppercase">ДАТА РЕГИСТРАЦИИ</div>
-                <div className="text-sm">{selectedChat.user.registrationDate}</div>
-                <div className="text-xs text-gray-500">4 года назад</div>
-              </div>
-              
-              {/* Мобильное меню действий */}
-              <div className="md:hidden space-y-2">
+            {/* Мобильные действия */}
+            <div className="md:hidden space-y-2">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full text-left justify-start"
+                onClick={() => alert('Пожаловаться')}
+              >
+                <Icon name="Flag" size={16} className="mr-2" />
+                Пожаловаться
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="w-full text-left justify-start"
+                onClick={() => alert('Заблокировать')}
+              >
+                <Icon name="Ban" size={16} className="mr-2" />
+                Заблокировать
+              </Button>
+              {selectedChat.user.discordProfile && (
                 <Button 
                   variant="outline" 
                   size="sm" 
                   className="w-full text-left justify-start"
-                  onClick={() => alert('Пожаловаться')}
+                  onClick={() => window.open(selectedChat.user.discordProfile, '_blank')}
                 >
-                  <Icon name="Flag" size={16} className="mr-2" />
-                  Пожаловаться
+                  <Icon name="MessageCircle" size={16} className="mr-2" />
+                  Discord профиль
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="w-full text-left justify-start"
-                  onClick={() => alert('Заблокировать')}
-                >
-                  <Icon name="Ban" size={16} className="mr-2" />
-                  Заблокировать
-                </Button>
-                {selectedChat.user.discordProfile && (
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full text-left justify-start"
-                    onClick={() => window.open(selectedChat.user.discordProfile, '_blank')}
-                  >
-                    <Icon name="MessageCircle" size={16} className="mr-2" />
-                    Discord профиль
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
 
             {/* Информация об объявлении */}
