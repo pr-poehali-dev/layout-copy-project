@@ -275,7 +275,7 @@ const Index = () => {
               {sampleListings
                 .filter((listing) => {
                   // Filter by seller if sellerFilter is set and we're on public tab
-                  if (currentTab === "public" && sellerFilter) {
+                  if (currentTab === "public" && sellerFilter && listing.owner) {
                     return listing.owner.toLowerCase().includes(sellerFilter.toLowerCase());
                   }
                   return true;
