@@ -430,8 +430,8 @@ const Messages = () => {
             </div>
 
             {/* Информация об объявлении */}
-            <div className="border-t border-gray-200 pt-4 md:pt-6">
-              <div className="bg-gray-800 rounded-lg text-white p-4 space-y-3">
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4 md:pt-6">
+              <div className="bg-card border border-border rounded-lg p-4 space-y-3">
                 {/* Заголовок объявления */}
                 <div className="flex items-start gap-3">
                   <img 
@@ -440,20 +440,20 @@ const Messages = () => {
                     className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                   />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-sm">{selectedChat.listing.title}</h3>
-                    <div className="flex items-center gap-1 mt-1 text-xs text-gray-300">
+                    <h3 className="font-semibold text-sm text-foreground">{selectedChat.listing.title}</h3>
+                    <div className="flex items-center gap-1 mt-1 text-xs text-muted-foreground">
                       <Icon name="Users" size={12} />
                       <span>9128O участников</span>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" className="text-gray-300 hover:text-white p-1">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground p-1">
                     <Icon name="Heart" size={16} />
                   </Button>
                 </div>
 
                 {/* Описание услуг */}
-                <div className="space-y-2 text-sm">
-                  <div className="text-blue-400 underline cursor-pointer">
+                <div className="space-y-2 text-sm text-foreground">
+                  <div className="text-blue-500 dark:text-blue-400 underline cursor-pointer">
                     https://discord.gg/yaoitag
                   </div>
                   
@@ -470,13 +470,13 @@ const Messages = () => {
                     <div>- 7d @everyone with Ping On Join & Join DM - $300</div>
                   </div>
                   
-                  <div className="text-gray-300">
+                  <div className="text-muted-foreground">
                     • Write to discord - @allanwood
                   </div>
                 </div>
 
                 {/* Статистика */}
-                <div className="flex gap-4 text-xs text-gray-400 pt-2 border-t border-gray-700">
+                <div className="flex gap-4 text-xs text-muted-foreground pt-2 border-t border-border">
                   <div className="flex items-center gap-1">
                     <Icon name="Eye" size={12} />
                     <span>6 просмотров</span>
@@ -494,10 +494,10 @@ const Messages = () => {
                 {/* Цена */}
                 <div className="flex items-center justify-between pt-2">
                   <div>
-                    <div className="text-2xl font-bold">100</div>
-                    <div className="text-xs text-gray-400">USD</div>
+                    <div className="text-2xl font-bold text-foreground">100</div>
+                    <div className="text-xs text-muted-foreground">USD</div>
                   </div>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-xs text-muted-foreground">
                     <div>Общение /</div>
                     <div>Знакомства</div>
                   </div>
