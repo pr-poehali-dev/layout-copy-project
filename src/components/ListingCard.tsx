@@ -21,13 +21,28 @@ const ListingCard = ({ listing, isDarkMode, language, formatPrice, isSharedView,
   const isOwner = currentUser && listing.owner === currentUser;
   const showEditButtons = isOwner && !isSharedView;
 
+  // Generate effect classes
+  const effectClasses = [];
+  if (listing.effects?.frame) {
+    effectClasses.push(listing.effects.frame);
+  }
+  if (listing.effects?.animation) {
+    effectClasses.push(listing.effects.animation);
+  }
+  if (listing.effects?.theme) {
+    effectClasses.push(listing.effects.theme);
+  }
+  if (listing.effects?.badge) {
+    effectClasses.push(listing.effects.badge);
+  }
+
   return (
     <Card
       className={`${
         isDarkMode
           ? "bg-gray-800/95 border-gray-700 text-white"
           : "bg-white/95"
-      } backdrop-blur-sm border shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02]`}
+      } backdrop-blur-sm border shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02] ${effectClasses.join(' ')}`}
     >
       <CardHeader className="pb-2 sm:pb-3 p-3 sm:p-6">
         <div className="flex items-start justify-between">

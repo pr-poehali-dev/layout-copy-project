@@ -16,6 +16,10 @@ export const sampleListings: Listing[] = [
     isFavorite: true,
     createdAt: new Date("2025-01-10"),
     owner: "user123",
+    effects: {
+      frame: "golden-glow-effect",
+      badge: "vip-crown-badge"
+    },
   },
   {
     id: "2", 
@@ -32,6 +36,11 @@ export const sampleListings: Listing[] = [
     isFavorite: false,
     createdAt: new Date("2025-01-09"),
     owner: "user456",
+    effects: {
+      frame: "neon-cyber-frame",
+      animation: "pulse-glow-animation",
+      badge: "trending-badge"
+    },
   },
   {
     id: "3",
@@ -48,5 +57,10 @@ export const sampleListings: Listing[] = [
     isFavorite: false,
     createdAt: new Date("2025-01-08"),
     owner: "user123",
+    effects: {
+      frame: "diamond-sparkle-effect",
+      theme: "pastel-dream-theme",
+      badge: "exclusive-star-badge"
+    },
   },
 ];
