@@ -1,41 +1,11 @@
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import Icon from "@/components/ui/icon";
 import Footer from "@/components/Footer";
-import TermsHeader from "@/components/terms/TermsHeader";
-import TabNavigation from "@/components/terms/TabNavigation";
-import MenuSection from "@/components/terms/MenuSection";
-import TermsSection from "@/components/terms/TermsSection";
-import { TabType } from "@/types/terms";
 
-// Temporary PrivacySection component until we can create the separate file
-const PrivacySection = ({ isDarkMode }: { isDarkMode: boolean }) => (
-  <div className="space-y-6">
-    <section>
-      <h2 className="text-xl font-semibold mb-3">1. Введение</h2>
-      <p className="leading-relaxed">
-        Данная политика конфиденциальности описывает, как мы собираем, 
-        используем и защищаем вашу персональную информацию при использовании 
-        платформы Discord Ads Board (adcord.net).
-      </p>
-    </section>
-    <section>
-      <h2 className="text-xl font-semibold mb-3">2. Какие данные мы собираем</h2>
-      <ul className="list-disc list-inside space-y-2 ml-4">
-        <li>Discord ID и имя пользователя</li>
-        <li>Аватар пользователя Discord</li>
-        <li>IP-адрес и данные браузера</li>
-        <li>История просмотров и кликов</li>
-      </ul>
-    </section>
-    <section>
-      <h2 className="text-xl font-semibold mb-3">3. Безопасность данных</h2>
-      <p className="leading-relaxed">
-        Мы принимаем соответствующие меры для защиты ваших данных, включая 
-        шифрование при передаче и ограниченный доступ к персональным данным.
-      </p>
-    </section>
-  </div>
-);
+type TabType = 'menu' | 'terms' | 'privacy';
 
 const Terms = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -65,13 +35,80 @@ const Terms = () => {
             : "bg-gray-50"
       } transition-all duration-300`}
     >
-      <TermsHeader
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
-        hasGradient={hasGradient}
-        setHasGradient={setHasGradient}
-        navigateHome={navigateHome}
-      />
+      {/* Header */}
+      <header
+        className={`${
+          isDarkMode
+            ? "bg-gray-800/95 border-gray-700"
+            : "bg-white/95 border-gray-200"
+        } backdrop-blur-sm border-b sticky top-0 z-50`}
+      >
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <button 
+              onClick={navigateHome}
+              className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity"
+            >
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                <Icon
+                  name="MessageSquare"
+                  size={16}
+                  className="sm:w-5 sm:h-5 text-white"
+                />
+              </div>
+              <div>
+                <h1
+                  className={`text-lg sm:text-xl font-bold ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}
+                >
+                  Discord Ads Board
+                </h1>
+                <p
+                  className={`text-xs sm:text-sm ${
+                    isDarkMode ? "text-gray-300" : "text-gray-600"
+                  }`}
+                >
+                  Площадка для размещения рекламы Discord серверов
+                </p>
+              </div>
+            </button>
+
+            {/* Theme Controls */}
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-2">
+                <Icon
+                  name="Palette"
+                  size={14}
+                  className={`sm:w-4 sm:h-4 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                />
+                <Switch
+                  checked={hasGradient}
+                  onCheckedChange={setHasGradient}
+                  className="scale-75 sm:scale-100"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon
+                  name="Moon"
+                  size={14}
+                  className={`sm:w-4 sm:h-4 ${
+                    isDarkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                />
+                <Switch
+                  checked={isDarkMode}
+                  onCheckedChange={setIsDarkMode}
+                  className="scale-75 sm:scale-100"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
@@ -81,12 +118,48 @@ const Terms = () => {
             : "bg-white/95"
         } backdrop-blur-sm`}>
           <CardHeader>
-            <TabNavigation
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              isDarkMode={isDarkMode}
-              navigateHome={navigateHome}
-            />
+            <div className="flex items-center gap-3 mb-4">
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={navigateHome}
+                className={isDarkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : ""}
+              >
+                <Icon name="ArrowLeft" size={16} className="mr-2" />
+                Назад
+              </Button>
+            </div>
+            
+            {/* Navigation Tabs */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              <Button
+                variant={activeTab === 'menu' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveTab('menu')}
+                className={`${activeTab === 'menu' ? '' : (isDarkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "")}`}
+              >
+                <Icon name="Menu" size={16} className="mr-2" />
+                Главное меню
+              </Button>
+              <Button
+                variant={activeTab === 'terms' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveTab('terms')}
+                className={`${activeTab === 'terms' ? '' : (isDarkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "")}`}
+              >
+                <Icon name="FileText" size={16} className="mr-2" />
+                Правила площадки
+              </Button>
+              <Button
+                variant={activeTab === 'privacy' ? "default" : "outline"}
+                size="sm"
+                onClick={() => setActiveTab('privacy')}
+                className={`${activeTab === 'privacy' ? '' : (isDarkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : "")}`}
+              >
+                <Icon name="Shield" size={16} className="mr-2" />
+                Политика конфиденциальности
+              </Button>
+            </div>
 
             <CardTitle className="text-2xl sm:text-3xl">
               {activeTab === 'menu' && 'Главное меню'}
