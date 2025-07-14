@@ -23,6 +23,7 @@ import Filters from "@/components/Filters";
 import ListingCard from "@/components/ListingCard";
 import SocialBanner from "@/components/SocialBanner";
 import Footer from "@/components/Footer";
+import Store from "@/components/Store";
 import { sampleListings } from "@/data/sampleListings";
 import { translations } from "@/data/translations";
 import type { Language } from "@/types";
@@ -34,6 +35,7 @@ const Index = () => {
   const [hasGradient, setHasGradient] = useState(true);
   const [language, setLanguage] = useState<Language>("ru");
   const [currentTab, setCurrentTab] = useState("public");
+  const [showStore, setShowStore] = useState(false);
   const [sortBy, setSortBy] = useState("newest");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [currencyFilter, setCurrencyFilter] = useState("ALL");
@@ -162,6 +164,17 @@ const Index = () => {
                 onClick={() => setHasGradient(!hasGradient)}
               >
                 <Icon name={hasGradient ? "Palette" : "Square"} size={14} />
+              </Button>
+
+              {/* Store Button */}
+              <Button
+                variant={showStore ? "default" : "outline"}
+                size="sm"
+                className="h-8 w-8 sm:h-9 sm:w-auto p-1 sm:px-3"
+                onClick={() => setShowStore(!showStore)}
+              >
+                <Icon name="Store" size={14} />
+                <span className="hidden sm:inline ml-1">Магазин</span>
               </Button>
 
               {/* Add Listing Button */}
@@ -301,6 +314,35 @@ const Index = () => {
             </div>
 
             <SocialBanner isDarkMode={isDarkMode} hasGradient={hasGradient} />
+          </div>
+        </div>
+      )}
+
+      {/* Store - Full Screen */}
+      {showStore && (
+        <div className={`min-h-screen animate-in fade-in duration-300 ${isDarkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+          <div className="container mx-auto px-4 py-8">
+            <div className={`max-w-7xl mx-auto ${isDarkMode ? "bg-gray-800/95 border-gray-700 text-white" : "bg-white/95"} backdrop-blur-sm rounded-lg border shadow-lg`}>
+              {/* Header */}
+              <div className={`p-6 border-b ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowStore(false)}
+                      className={`${isDarkMode ? "border-gray-600 text-gray-300 hover:bg-gray-700" : ""}`}
+                    >
+                      <Icon name="ArrowLeft" size={16} className="mr-2" />
+                      Назад
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Store Content */}
+              <Store />
+            </div>
           </div>
         </div>
       )}
