@@ -301,6 +301,13 @@ const Messages = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem>
+                            <Icon name="Calendar" size={16} className="mr-2" />
+                            <div>
+                              <div className="text-sm">Зарегистрирован</div>
+                              <div className="text-xs text-gray-500">{selectedChat.user.registrationDate}</div>
+                            </div>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
                             <Icon name="Flag" size={16} className="mr-2" />
                             Пожаловаться
                           </DropdownMenuItem>
