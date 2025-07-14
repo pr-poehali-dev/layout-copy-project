@@ -40,6 +40,7 @@ const Index = () => {
   const [viewMode, setViewMode] = useState<"list" | "gallery">("gallery");
   const [showAddForm, setShowAddForm] = useState(false);
   const [activeInfoSection, setActiveInfoSection] = useState<InfoSection>("none");
+  const [sellerFilter, setSellerFilter] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -51,6 +52,9 @@ const Index = () => {
   const t = translations[language];
   const categories = ["Gaming", "Finance", "IT", "Education", "Entertainment"];
   const currencies = ["ALL", "RUB", "USD", "EUR", "LTC", "USDT"];
+  
+  // Get unique sellers from sample listings
+  const availableSellers = [...new Set(sampleListings.map(listing => listing.owner))];
 
   const formatPrice = (price: number, currency: string) => {
     return `${price.toLocaleString()} ${currency}`;
@@ -255,6 +259,9 @@ const Index = () => {
               setViewMode={setViewMode}
               categories={categories}
               currencies={currencies}
+              sellerFilter={sellerFilter}
+              setSellerFilter={setSellerFilter}
+              availableSellers={availableSellers}
             />
 
             {/* Listings */}
@@ -265,7 +272,15 @@ const Index = () => {
                   : "grid-cols-1"
               }`}
             >
-              {sampleListings.map((listing) => (
+              {sampleListings
+                .filter((listing) => {
+                  // Filter by seller if sellerFilter is set and we're on public tab
+                  if (currentTab === "public" && sellerFilter) {
+                    return listing.owner.toLowerCase().includes(sellerFilter.toLowerCase());
+                  }
+                  return true;
+                })
+                .map((listing) => (
                 <ListingCard
                   key={listing.id}
                   listing={listing}
