@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('./styles/store-effects.css');
-
 @layer base {
   :root {
     --background: 0 0% 100%;

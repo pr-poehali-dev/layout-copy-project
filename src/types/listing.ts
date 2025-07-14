@@ -12,13 +12,6 @@ export interface Listing {
   favorites: number;
   isFavorite: boolean;
   createdAt: Date;
-  owner: string;
-  effects?: {
-    frame?: string;
-    animation?: string;
-    badge?: string;
-    theme?: string;
-  };
 }
 
 export type SortBy = "newest" | "cheapest" | "expensive";
