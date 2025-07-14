@@ -241,9 +241,29 @@ const Messages = () => {
                       <Button variant="outline" size="sm" className="h-7 text-xs bg-green-500 text-white border-green-500 hover:bg-green-600">
                         Включены оповещения
                       </Button>
-                      <Button variant="outline" size="sm" className="h-7 text-xs">
-                        •••
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="sm" className="h-7 text-xs">
+                            •••
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Icon name="Flag" size={16} className="mr-2" />
+                            Пожаловаться
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Icon name="Ban" size={16} className="mr-2" />
+                            Заблокировать
+                          </DropdownMenuItem>
+                          {selectedChat.user.discordProfile && (
+                            <DropdownMenuItem onClick={() => window.open(selectedChat.user.discordProfile, '_blank')}>
+                              <Icon name="MessageCircle" size={16} className="mr-2" />
+                              Discord профиль
+                            </DropdownMenuItem>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </div>
                 </div>
@@ -305,36 +325,10 @@ const Messages = () => {
           <div className="w-80 bg-white border-l border-gray-200 p-4 space-y-6">
             {/* Информация о пользователе */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="space-y-2">
-                  <div className="text-xs text-gray-500 uppercase">ДАТА РЕГИСТРАЦИИ</div>
-                  <div className="text-sm">{selectedChat.user.registrationDate}</div>
-                  <div className="text-xs text-gray-500">4 года назад</div>
-                </div>
-                
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                      <Icon name="MoreVertical" size={16} />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>
-                      <Icon name="Flag" size={16} className="mr-2" />
-                      Пожаловаться
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Icon name="Ban" size={16} className="mr-2" />
-                      Заблокировать
-                    </DropdownMenuItem>
-                    {selectedChat.user.discordProfile && (
-                      <DropdownMenuItem onClick={() => window.open(selectedChat.user.discordProfile, '_blank')}>
-                        <Icon name="MessageCircle" size={16} className="mr-2" />
-                        Discord профиль
-                      </DropdownMenuItem>
-                    )}
-                  </DropdownMenuContent>
-                </DropdownMenu>
+              <div className="space-y-2">
+                <div className="text-xs text-gray-500 uppercase">ДАТА РЕГИСТРАЦИИ</div>
+                <div className="text-sm">{selectedChat.user.registrationDate}</div>
+                <div className="text-xs text-gray-500">4 года назад</div>
               </div>
             </div>
 
