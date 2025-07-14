@@ -66,9 +66,9 @@ const Messages = () => {
       unreadCount: 0,
       listing: {
         id: "1",
-        title: "Gaming Setup - RTX 4090",
-        price: 250000,
-        image: "/api/placeholder/200/150"
+        title: "Игровое сообщество RPG",
+        price: 2500,
+        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=200&h=150&fit=crop"
       }
     },
     {
@@ -86,9 +86,9 @@ const Messages = () => {
       unreadCount: 2,
       listing: {
         id: "2",
-        title: "Mechanical Keyboard",
-        price: 15000,
-        image: "/api/placeholder/200/150"
+        title: "Криптотрейдинг PRO",
+        price: 150,
+        image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=200&h=150&fit=crop"
       }
     }
   ];
@@ -278,12 +278,6 @@ const Messages = () => {
               {/* Поле ввода */}
               <div className="bg-white border-t border-gray-200 p-4">
                 <div className="flex gap-2">
-                  <Button variant="ghost" size="sm">
-                    <Icon name="Smile" size={20} />
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Icon name="Paperclip" size={20} />
-                  </Button>
                   <Input
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
