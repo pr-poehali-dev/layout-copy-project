@@ -15,6 +15,7 @@ export const sampleListings: Listing[] = [
     favorites: 156,
     isFavorite: true,
     createdAt: new Date("2025-01-10"),
+    owner: "user123",
   },
   {
     id: "2", 
@@ -30,6 +31,7 @@ export const sampleListings: Listing[] = [
     favorites: 289,
     isFavorite: false,
     createdAt: new Date("2025-01-09"),
+    owner: "user456",
   },
   {
     id: "3",
@@ -45,5 +47,6 @@ export const sampleListings: Listing[] = [
     favorites: 203,
     isFavorite: false,
     createdAt: new Date("2025-01-08"),
+    owner: "user123",
   },
 ];

@@ -10,10 +10,16 @@ interface ListingCardProps {
   isDarkMode: boolean;
   language: Language;
   formatPrice: (price: number, currency: string) => string;
+  isSharedView?: boolean;
+  currentUser?: string;
 }
 
-const ListingCard = ({ listing, isDarkMode, language, formatPrice }: ListingCardProps) => {
+const ListingCard = ({ listing, isDarkMode, language, formatPrice, isSharedView, currentUser }: ListingCardProps) => {
   const t = translations[language];
+  
+  // Check if current user is the owner of the listing
+  const isOwner = currentUser && listing.owner === currentUser;
+  const showEditButtons = isOwner && !isSharedView;
 
   return (
     <Card
@@ -165,21 +171,61 @@ const ListingCard = ({ listing, isDarkMode, language, formatPrice }: ListingCard
             >
               {t.contact}
             </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              className={`h-8 w-8 p-0 border-red-500 text-red-500 hover:bg-red-50 ${
-                isDarkMode
-                  ? "border-red-500 text-red-400 hover:bg-red-950/20"
-                  : "border-red-500 text-red-500 hover:bg-red-50"
-              }`}
-              title={t.report}
-            >
-              <Icon
-                name="Flag"
-                size={14}
-              />
-            </Button>
+            
+            {/* Edit/Delete buttons - only show for owner and not in shared view */}
+            {showEditButtons && (
+              <>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className={`h-8 w-8 p-0 ${
+                    isDarkMode
+                      ? "border-gray-600 text-gray-300 hover:bg-gray-700"
+                      : "border-gray-300 text-gray-600 hover:bg-gray-50"
+                  }`}
+                  title="Редактировать"
+                >
+                  <Icon
+                    name="Edit"
+                    size={14}
+                  />
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className={`h-8 w-8 p-0 border-red-500 text-red-500 hover:bg-red-50 ${
+                    isDarkMode
+                      ? "border-red-500 text-red-400 hover:bg-red-950/20"
+                      : "border-red-500 text-red-500 hover:bg-red-50"
+                  }`}
+                  title="Удалить"
+                >
+                  <Icon
+                    name="Trash"
+                    size={14}
+                  />
+                </Button>
+              </>
+            )}
+            
+            {/* Report button - only show if not owner or in shared view */}
+            {(!isOwner || isSharedView) && (
+              <Button
+                size="sm"
+                variant="outline"
+                className={`h-8 w-8 p-0 border-red-500 text-red-500 hover:bg-red-50 ${
+                  isDarkMode
+                    ? "border-red-500 text-red-400 hover:bg-red-950/20"
+                    : "border-red-500 text-red-500 hover:bg-red-50"
+                }`}
+                title={t.report}
+              >
+                <Icon
+                  name="Flag"
+                  size={14}
+                />
+              </Button>
+            )}
           </div>
         </div>
       </CardContent>

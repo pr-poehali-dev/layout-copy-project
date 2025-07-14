@@ -19,6 +19,8 @@ interface FiltersProps {
   setViewMode: (mode: ViewMode) => void;
   categories: string[];
   currencies: string[];
+  onGenerateShareLink?: () => void;
+  isSharedView?: boolean;
 }
 
 const Filters = ({
@@ -36,13 +38,15 @@ const Filters = ({
   setViewMode,
   categories,
   currencies,
+  onGenerateShareLink,
+  isSharedView,
 }: FiltersProps) => {
   const t = translations[language];
 
   return (
     <div className="space-y-4 sm:space-y-6">
       {/* Navigation Tabs */}
-      <div className="flex gap-1 sm:gap-2 overflow-x-auto">
+      <div className="flex gap-1 sm:gap-2 overflow-x-auto items-center">
         {(["public", "my", "favorites"] as TabType[]).map((tab) => (
           <Button
             key={tab}
@@ -59,6 +63,23 @@ const Filters = ({
             {t[tab as keyof typeof t]}
           </Button>
         ))}
+        
+        {/* Share Link Button - Only show on "my" tab and not in shared view */}
+        {currentTab === "my" && !isSharedView && onGenerateShareLink && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onGenerateShareLink}
+            className={`whitespace-nowrap text-xs sm:text-sm px-3 sm:px-4 h-8 sm:h-9 ml-2 ${
+              isDarkMode
+                ? "bg-gray-700/90 text-gray-200 hover:bg-gray-600 border-gray-600"
+                : "bg-white/90 hover:bg-white text-gray-900"
+            }`}
+          >
+            <Icon name="Share" size={14} className="mr-1" />
+            Поделиться
+          </Button>
+        )}
       </div>
 
       {/* Filters */}

@@ -12,6 +12,7 @@ export interface Listing {
   favorites: number;
   isFavorite: boolean;
   createdAt: Date;
+  owner: string;
 }
 
 export type SortBy = "newest" | "cheapest" | "expensive";

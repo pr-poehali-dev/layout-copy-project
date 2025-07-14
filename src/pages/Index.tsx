@@ -40,6 +40,8 @@ const Index = () => {
   const [viewMode, setViewMode] = useState<"list" | "gallery">("gallery");
   const [showAddForm, setShowAddForm] = useState(false);
   const [activeInfoSection, setActiveInfoSection] = useState<InfoSection>("none");
+  const [authorFilter, setAuthorFilter] = useState<string | null>(null);
+  const [isSharedView, setIsSharedView] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -63,12 +65,29 @@ const Index = () => {
     setFormData({ title: "", description: "", price: "", currency: "RUB" });
   };
 
+  const generateShareLink = () => {
+    const currentUrl = window.location.origin + window.location.pathname;
+    const shareUrl = `${currentUrl}?author=user123`; // В реальном проекте будет ID пользователя
+    navigator.clipboard.writeText(shareUrl);
+    alert("Ссылка скопирована в буфер обмена!");
+  };
+
   // Auto scroll to top when opening info sections
   useEffect(() => {
     if (activeInfoSection !== "none") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [activeInfoSection]);
+
+  // Check URL params for shared view
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authorParam = urlParams.get('author');
+    if (authorParam) {
+      setAuthorFilter(authorParam);
+      setIsSharedView(true);
+    }
+  }, []);
 
   return (
     <div
@@ -248,6 +267,8 @@ const Index = () => {
               setViewMode={setViewMode}
               categories={categories}
               currencies={currencies}
+              onGenerateShareLink={generateShareLink}
+              isSharedView={isSharedView}
             />
 
             {/* Listings */}
@@ -258,15 +279,25 @@ const Index = () => {
                   : "grid-cols-1"
               }`}
             >
-              {sampleListings.map((listing) => (
-                <ListingCard
-                  key={listing.id}
-                  listing={listing}
-                  isDarkMode={isDarkMode}
-                  language={language}
-                  formatPrice={formatPrice}
-                />
-              ))}
+              {sampleListings
+                .filter(listing => {
+                  // Filter by author if authorFilter is set
+                  if (authorFilter) {
+                    return listing.owner === authorFilter;
+                  }
+                  return true;
+                })
+                .map((listing) => (
+                  <ListingCard
+                    key={listing.id}
+                    listing={listing}
+                    isDarkMode={isDarkMode}
+                    language={language}
+                    formatPrice={formatPrice}
+                    isSharedView={isSharedView}
+                    currentUser="user123" // В реальном проекте будет из контекста аутентификации
+                  />
+                ))}
             </div>
 
             <SocialBanner isDarkMode={isDarkMode} hasGradient={hasGradient} />
