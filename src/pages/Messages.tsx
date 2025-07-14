@@ -2,6 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/icon";
 
 interface User {
@@ -299,45 +305,36 @@ const Messages = () => {
           <div className="w-80 bg-white border-l border-gray-200 p-4 space-y-6">
             {/* Информация о пользователе */}
             <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <img 
-                  src={selectedChat.user.avatar} 
-                  alt={selectedChat.user.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <h4 className="font-semibold">{selectedChat.user.name}</h4>
-                  {selectedChat.user.isOnline && (
-                    <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
-                      Онлайн
-                    </Badge>
-                  )}
+              <div className="flex items-center justify-between">
+                <div className="space-y-2">
+                  <div className="text-xs text-gray-500 uppercase">ДАТА РЕГИСТРАЦИИ</div>
+                  <div className="text-sm">{selectedChat.user.registrationDate}</div>
+                  <div className="text-xs text-gray-500">4 года назад</div>
                 </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="text-xs text-gray-500 uppercase">ДАТА РЕГИСТРАЦИИ</div>
-                <div className="text-sm">{selectedChat.user.registrationDate}</div>
-                <div className="text-xs text-gray-500">4 года назад</div>
-              </div>
-
-              <div className="space-y-2">
-                <Button className="w-full text-sm">
-                  Пожаловаться
-                </Button>
-                <Button variant="outline" className="w-full text-sm">
-                  Заблокировать
-                </Button>
-                {selectedChat.user.discordProfile && (
-                  <Button 
-                    variant="outline" 
-                    className="w-full text-sm bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100"
-                    onClick={() => window.open(selectedChat.user.discordProfile, '_blank')}
-                  >
-                    <Icon name="MessageCircle" size={16} className="mr-2" />
-                    Discord профиль
-                  </Button>
-                )}
+                
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                      <Icon name="MoreVertical" size={16} />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>
+                      <Icon name="Flag" size={16} className="mr-2" />
+                      Пожаловаться
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Icon name="Ban" size={16} className="mr-2" />
+                      Заблокировать
+                    </DropdownMenuItem>
+                    {selectedChat.user.discordProfile && (
+                      <DropdownMenuItem onClick={() => window.open(selectedChat.user.discordProfile, '_blank')}>
+                        <Icon name="MessageCircle" size={16} className="mr-2" />
+                        Discord профиль
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 
