@@ -158,6 +158,12 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
     const mention = detectMention(messageInput);
     const isPrivate = mention !== null;
 
+    // If sending message with mention, ensure it goes to private and switch tab
+    if (isPrivate) {
+      setLastMention(mention!);
+      setActiveTab('private');
+    }
+
     const newMessage: Message = {
       id: Date.now().toString(),
       author: currentUser,
@@ -169,13 +175,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
 
     setMessages(prev => [...prev, newMessage]);
     
-    // Update last mention for private messages and switch to private tab
+    // Update last mention for private messages
     if (mention) {
       setLastMention(mention);
-      // Force switch to private tab immediately
-      setTimeout(() => {
-        setActiveTab('private');
-      }, 0);
     }
 
     setMessageInput('');
@@ -316,15 +318,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
           }`}
         >
           {getFilteredMessages().map((message) => (
-            <div key={message.id} className="text-sm">
-              <div className="flex items-start gap-2 mb-1">
-                <span className="text-xs opacity-60">
-                  {formatTime(message.timestamp)}
-                </span>
-              </div>
+            <div key={message.id} className="text-sm mb-2">
               <div className="flex items-start gap-1">
                 <span 
-                  className={`font-medium text-xs cursor-pointer hover:underline ${
+                  className={`font-medium text-xs cursor-pointer hover:underline whitespace-nowrap ${
                     message.author === currentUser 
                       ? 'text-blue-600' 
                       : isDarkMode 
@@ -335,19 +332,24 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
                 >
                   {message.author}:
                 </span>
-                <span className={`text-xs flex-1 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  {message.content.split(/(@\w+)/).map((part, index) => (
-                    part.startsWith('@') ? (
-                      <span key={index} className="text-blue-500 font-medium">
-                        {part}
-                      </span>
-                    ) : (
-                      <span key={index}>{part}</span>
-                    )
-                  ))}
-                </span>
+                <div className="flex-1 min-w-0">
+                  <div className={`text-xs leading-relaxed ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                  }`}>
+                    {message.content.split(/(@\w+)/).map((part, index) => (
+                      part.startsWith('@') ? (
+                        <span key={index} className="text-blue-500 font-medium">
+                          {part}
+                        </span>
+                      ) : (
+                        <span key={index}>{part}</span>
+                      )
+                    ))}
+                  </div>
+                  <div className="text-xs opacity-30 mt-1">
+                    {formatTime(message.timestamp)}
+                  </div>
+                </div>
               </div>
             </div>
           ))}
