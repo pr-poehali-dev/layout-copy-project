@@ -169,9 +169,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
 
     setMessages(prev => [...prev, newMessage]);
     
-    // Update last mention for private messages
+    // Update last mention for private messages and switch to private tab
     if (mention) {
       setLastMention(mention);
+      setActiveTab('private'); // Auto-switch to private tab
     }
 
     setMessageInput('');
