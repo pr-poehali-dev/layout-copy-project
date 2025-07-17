@@ -108,12 +108,11 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
 
   // Handle clicking on username in suggestions or messages
   const handleUsernameClick = (username: string) => {
-    // Check if this username is already mentioned
-    const currentMentionMatch = messageInput.match(/@(\w+):\s*/);
-    const currentMentionedUser = currentMentionMatch ? currentMentionMatch[1] : null;
+    // Check if this username is already mentioned anywhere in the message
+    const mentionRegex = new RegExp(`@${username}(?:\\s*:|\\b)`, 'i');
     
-    // If clicking on the same user that's already mentioned, do nothing
-    if (currentMentionedUser === username) {
+    // If this user is already mentioned, do nothing
+    if (mentionRegex.test(messageInput)) {
       setShowSuggestions(false);
       if (inputRef.current) {
         inputRef.current.focus();
@@ -121,22 +120,17 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
       return;
     }
     
-    const beforeAt = messageInput.lastIndexOf('@');
+    // Replace any existing mention with the new one
+    const existingMentionMatch = messageInput.match(/@\w+:\s*/);
     let newInput;
     
-    if (beforeAt !== -1) {
+    if (existingMentionMatch) {
       // Replace existing mention
-      const beforeMention = messageInput.substring(0, beforeAt);
-      const afterMention = messageInput.substring(beforeAt).replace(/@\w*/, `@${username}: `);
-      newInput = beforeMention + afterMention;
+      newInput = messageInput.replace(/@\w+:\s*/, `@${username}: `);
     } else {
-      // Add new mention, replacing any existing mention
-      const existingMentionMatch = messageInput.match(/@\w+:\s*/);
-      if (existingMentionMatch) {
-        newInput = messageInput.replace(/@\w+:\s*/, `@${username}: `);
-      } else {
-        newInput = `@${username}: ${messageInput}`;
-      }
+      // Add new mention at the beginning
+      const trimmedInput = messageInput.trim();
+      newInput = trimmedInput ? `@${username}: ${trimmedInput}` : `@${username}: `;
     }
     
     setMessageInput(newInput);
