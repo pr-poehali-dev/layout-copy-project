@@ -29,6 +29,7 @@ const Messages = () => {
       lastMessage: "Приглашаем вас в наш закрытый Telegram 😎",
       lastMessageTime: "13.07",
       unreadCount: 0,
+      type: 'community' as const,
       messages: [
         {
           id: "1",
@@ -82,6 +83,7 @@ const Messages = () => {
       lastMessage: "Сообщение о заказе",
       lastMessageTime: "12.07",
       unreadCount: 2,
+      type: 'business' as const,
       messages: [
         {
           id: "6",
@@ -122,6 +124,7 @@ const Messages = () => {
       lastMessage: "Готово! Проект завершен",
       lastMessageTime: "11.07",
       unreadCount: 0,
+      type: 'business' as const,
       messages: [
         {
           id: "9",
@@ -147,6 +150,111 @@ const Messages = () => {
         title: "Разработка веб-сайтов",
         price: 5000,
         image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=200&h=150&fit=crop"
+      }
+    },
+    {
+      id: "4",
+      user: {
+        id: "mari_design",
+        name: "Кошелёк",
+        avatar: "https://cdn.poehali.dev/files/61cdef64-eb14-4c5e-95ab-44cfb042620f.png",
+        isOnline: false,
+        registrationDate: "5 июля 2023, 12:45",
+        discordProfile: "https://discord.gg/mari"
+      },
+      lastMessage: "Подтвердите получение платежа",
+      lastMessageTime: "18:17",
+      unreadCount: 0,
+      type: 'private' as const,
+      messages: [
+        {
+          id: "12",
+          text: "Привет! Получил платеж",
+          timestamp: "18:15",
+          sender: "mari_design"
+        },
+        {
+          id: "13",
+          text: "Подтвердите получение платежа",
+          timestamp: "18:17",
+          sender: "mari_design"
+        }
+      ],
+      listing: {
+        id: "4",
+        title: "Личные финансы",
+        price: 0,
+        image: "https://cdn.poehali.dev/files/61cdef64-eb14-4c5e-95ab-44cfb042620f.png"
+      }
+    },
+    {
+      id: "5",
+      user: {
+        id: "ligmar_community",
+        name: "Ligmar - Community",
+        avatar: "/api/placeholder/40/40",
+        isOnline: true,
+        registrationDate: "1 июля 2023, 10:00",
+        discordProfile: "https://discord.gg/ligmar"
+      },
+      lastMessage: "Combat: Окей, тут уже запахло угрозами",
+      lastMessageTime: "18:17",
+      unreadCount: 7,
+      type: 'community' as const,
+      messages: [
+        {
+          id: "14",
+          text: "Привет всем! Как дела с игрой?",
+          timestamp: "18:10",
+          sender: "ligmar_community"
+        },
+        {
+          id: "15",
+          text: "Combat: Окей, тут уже запахло угрозами",
+          timestamp: "18:17",
+          sender: "ligmar_community"
+        }
+      ],
+      listing: {
+        id: "5",
+        title: "Игровое сообщество Ligmar",
+        price: 0,
+        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=200&h=150&fit=crop"
+      }
+    },
+    {
+      id: "6",
+      user: {
+        id: "travel_energy",
+        name: "Поехали!",
+        avatar: "/api/placeholder/40/40",
+        isOnline: false,
+        registrationDate: "3 июля 2023, 16:30",
+        discordProfile: "https://discord.gg/travel"
+      },
+      lastMessage: "+1150 энергии зачислено Активация",
+      lastMessageTime: "18:13",
+      unreadCount: 2,
+      type: 'private' as const,
+      messages: [
+        {
+          id: "16",
+          text: "Активация бонусной энергии",
+          timestamp: "18:12",
+          sender: "travel_energy"
+        },
+        {
+          id: "17",
+          text: "+1150 энергии зачислено Активация",
+          timestamp: "18:13",
+          sender: "travel_energy"
+        }
+      ],
+      listing: {
+        id: "6",
+        title: "Путешествия и энергия",
+        price: 0,
+        image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=200&h=150&fit=crop"
       }
     }
   ]);

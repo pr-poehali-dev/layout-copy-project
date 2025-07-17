@@ -22,12 +22,19 @@ export interface Chat {
   lastMessageTime: string;
   unreadCount: number;
   messages: Message[];
+  type: 'private' | 'business' | 'community';
   listing: {
     id: string;
     title: string;
     price: number;
     image: string;
   };
+}
+
+export interface ChatSection {
+  type: 'private' | 'business' | 'community';
+  title: string;
+  chats: Chat[];
 }
 
 export interface Listing {
