@@ -108,6 +108,19 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
 
   // Handle clicking on username in suggestions or messages
   const handleUsernameClick = (username: string) => {
+    // Check if this username is already mentioned
+    const currentMentionMatch = messageInput.match(/@(\w+):\s*/);
+    const currentMentionedUser = currentMentionMatch ? currentMentionMatch[1] : null;
+    
+    // If clicking on the same user that's already mentioned, do nothing
+    if (currentMentionedUser === username) {
+      setShowSuggestions(false);
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+      return;
+    }
+    
     const beforeAt = messageInput.lastIndexOf('@');
     let newInput;
     
