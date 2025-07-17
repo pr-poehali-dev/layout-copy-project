@@ -21,6 +21,7 @@ export interface Chat {
   lastMessage: string;
   lastMessageTime: string;
   unreadCount: number;
+  messages: Message[];
   listing: {
     id: string;
     title: string;

@@ -15,7 +15,7 @@ const Messages = () => {
   const [showProfile, setShowProfile] = useState(false);
 
   // Мок данные для чатов
-  const chats: Chat[] = [
+  const [chats, setChats] = useState<Chat[]>([
     {
       id: "1",
       user: {
@@ -29,6 +29,39 @@ const Messages = () => {
       lastMessage: "Приглашаем вас в наш закрытый Telegram 😎",
       lastMessageTime: "13.07",
       unreadCount: 0,
+      messages: [
+        {
+          id: "1",
+          text: "Привет, отправляй пригласительную ссылку на дискорд сервер",
+          timestamp: "13.07.25",
+          sender: "evilegx"
+        },
+        {
+          id: "2",
+          text: "https://discord.gg/vbCdKC2q",
+          timestamp: "13.07.25",
+          sender: "other"
+        },
+        {
+          id: "3",
+          text: "выдал",
+          timestamp: "13.07.25",
+          sender: "evilegx"
+        },
+        {
+          id: "4",
+          text: "Покупатель Pudding2200 подтвердил успешное выполнение заказа #S8PSAPZM и отправил деньги продавцу EvilEgx.",
+          timestamp: "13.07.25",
+          sender: "system",
+          isSystem: true
+        },
+        {
+          id: "5",
+          text: "Приглашаем вас в наш закрытый Telegram 😎",
+          timestamp: "13.07.25",
+          sender: "other"
+        }
+      ],
       listing: {
         id: "1",
         title: "Игровое сообщество RPG",
@@ -49,58 +82,109 @@ const Messages = () => {
       lastMessage: "Сообщение о заказе",
       lastMessageTime: "12.07",
       unreadCount: 2,
+      messages: [
+        {
+          id: "6",
+          text: "Привет! Интересует ваш курс по криптотрейдингу",
+          timestamp: "12.07.25",
+          sender: "other"
+        },
+        {
+          id: "7",
+          text: "Здравствуйте! Конечно, расскажу подробнее",
+          timestamp: "12.07.25",
+          sender: "yaDe92"
+        },
+        {
+          id: "8",
+          text: "Сообщение о заказе",
+          timestamp: "12.07.25",
+          sender: "yaDe92"
+        }
+      ],
       listing: {
         id: "2",
         title: "Криптотрейдинг PRO",
         price: 150,
         image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=200&h=150&fit=crop"
       }
-    }
-  ];
-
-  // Мок данные для сообщений
-  const messages: { [chatId: string]: Message[] } = {
-    "1": [
-      {
-        id: "1",
-        text: "Привет, отправляй пригласительную ссылку на дискорд сервер",
-        timestamp: "13.07.25",
-        sender: "evilegx"
+    },
+    {
+      id: "3",
+      user: {
+        id: "alex_dev",
+        name: "Alex Developer",
+        avatar: "/api/placeholder/40/40",
+        isOnline: true,
+        registrationDate: "10 июня 2023, 14:22",
+        discordProfile: "https://discord.gg/alexdev"
       },
-      {
-        id: "2",
-        text: "https://discord.gg/vbCdKC2q",
-        timestamp: "13.07.25",
-        sender: "other"
-      },
-      {
+      lastMessage: "Готово! Проект завершен",
+      lastMessageTime: "11.07",
+      unreadCount: 0,
+      messages: [
+        {
+          id: "9",
+          text: "Привет! Нужна помощь с веб-сайтом",
+          timestamp: "11.07.25",
+          sender: "other"
+        },
+        {
+          id: "10",
+          text: "Здравствуйте! Конечно, что именно нужно сделать?",
+          timestamp: "11.07.25",
+          sender: "alex_dev"
+        },
+        {
+          id: "11",
+          text: "Готово! Проект завершен",
+          timestamp: "11.07.25",
+          sender: "alex_dev"
+        }
+      ],
+      listing: {
         id: "3",
-        text: "выдал",
-        timestamp: "13.07.25",
-        sender: "evilegx"
-      },
-      {
-        id: "4",
-        text: "Покупатель Pudding2200 подтвердил успешное выполнение заказа #S8PSAPZM и отправил деньги продавцу EvilEgx.",
-        timestamp: "13.07.25",
-        sender: "system",
-        isSystem: true
-      },
-      {
-        id: "5",
-        text: "Приглашаем вас в наш закрытый Telegram 😎",
-        timestamp: "13.07.25",
-        sender: "other"
+        title: "Разработка веб-сайтов",
+        price: 5000,
+        image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=200&h=150&fit=crop"
       }
-    ]
-  };
+    }
+  ]);
 
   const selectedChat = chats.find(chat => chat.id === selectedChatId);
-  const chatMessages = messages[selectedChatId] || [];
+  const chatMessages = selectedChat?.messages || [];
 
   const sendMessage = () => {
-    if (!newMessage.trim()) return;
-    // Здесь будет логика отправки сообщения
+    if (!newMessage.trim() || !selectedChat) return;
+    
+    const message: Message = {
+      id: Date.now().toString(),
+      text: newMessage,
+      timestamp: new Date().toLocaleString('ru-RU', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }),
+      sender: "other"
+    };
+    
+    setChats(prevChats => 
+      prevChats.map(chat => 
+        chat.id === selectedChatId 
+          ? { 
+              ...chat, 
+              messages: [...chat.messages, message],
+              lastMessage: newMessage,
+              lastMessageTime: new Date().toLocaleString('ru-RU', { 
+                day: '2-digit', 
+                month: '2-digit' 
+              })
+            }
+          : chat
+      )
+    );
+    
     setNewMessage("");
   };
 
