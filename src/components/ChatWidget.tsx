@@ -54,7 +54,10 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
   ]);
   const [currentUser] = useState('Игрок123');
   const [lastMention, setLastMention] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState(0);
   const chatRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -67,6 +70,77 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
   const detectMention = (content: string): string | null => {
     const mentionMatch = content.match(/@(\w+)/);
     return mentionMatch ? mentionMatch[1] : null;
+  };
+
+  // Get unique usernames sorted by recent activity
+  const getRecentUsers = (): string[] => {
+    const userActivityMap = new Map<string, number>();
+    
+    // Sort messages by timestamp descending and collect users
+    const sortedMessages = [...messages].sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    
+    sortedMessages.forEach((msg, index) => {
+      if (msg.author !== currentUser && !userActivityMap.has(msg.author)) {
+        userActivityMap.set(msg.author, index);
+      }
+    });
+
+    // Convert to array and sort by activity (lower index = more recent)
+    return Array.from(userActivityMap.entries())
+      .sort((a, b) => a[1] - b[1])
+      .map(([username]) => username);
+  };
+
+  // Handle @ symbol detection for suggestions
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const cursorPos = e.target.selectionStart || 0;
+    
+    setMessageInput(value);
+    setCursorPosition(cursorPos);
+
+    // Check if @ is at cursor position or just before it
+    const atIndex = value.lastIndexOf('@', cursorPos);
+    const hasAtSymbol = atIndex !== -1 && (atIndex === cursorPos - 1 || (atIndex < cursorPos && !value.slice(atIndex + 1, cursorPos).includes(' ')));
+    
+    setShowSuggestions(hasAtSymbol);
+  };
+
+  // Handle clicking on username in suggestions or messages
+  const handleUsernameClick = (username: string) => {
+    const beforeAt = messageInput.lastIndexOf('@');
+    let newInput;
+    
+    if (beforeAt !== -1) {
+      // Replace existing mention
+      const beforeMention = messageInput.substring(0, beforeAt);
+      const afterMention = messageInput.substring(beforeAt).replace(/@\w*/, `@${username}: `);
+      newInput = beforeMention + afterMention;
+    } else {
+      // Add new mention, replacing any existing mention
+      const existingMentionMatch = messageInput.match(/@\w+:\s*/);
+      if (existingMentionMatch) {
+        newInput = messageInput.replace(/@\w+:\s*/, `@${username}: `);
+      } else {
+        newInput = `@${username}: ${messageInput}`;
+      }
+    }
+    
+    setMessageInput(newInput);
+    setLastMention(username);
+    setShowSuggestions(false);
+    
+    // Focus input
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  // Handle keyboard navigation in suggestions
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      setShowSuggestions(false);
+    }
   };
 
   // Handle sending messages
@@ -118,6 +192,18 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
       setMessageInput(`@${lastMention}: `);
     }
   }, [activeTab, lastMention]);
+
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setShowSuggestions(false);
+    };
+
+    if (showSuggestions) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [showSuggestions]);
 
   // Format timestamp
   const formatTime = (date: Date) => {
@@ -218,13 +304,16 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
           {getFilteredMessages().map((message) => (
             <div key={message.id} className="text-sm">
               <div className="flex items-start gap-2">
-                <span className={`font-medium text-xs ${
-                  message.author === currentUser 
-                    ? 'text-blue-600' 
-                    : isDarkMode 
-                      ? 'text-gray-200' 
-                      : 'text-gray-800'
-                }`}>
+                <span 
+                  className={`font-medium text-xs cursor-pointer hover:underline ${
+                    message.author === currentUser 
+                      ? 'text-blue-600' 
+                      : isDarkMode 
+                        ? 'text-gray-200 hover:text-gray-100' 
+                        : 'text-gray-800 hover:text-gray-600'
+                  }`}
+                  onClick={() => handleUsernameClick(message.author)}
+                >
                   {message.author}:
                 </span>
                 <span className="text-xs opacity-60">
@@ -249,16 +338,46 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({ isDarkMode }) => {
         </div>
 
         {/* Input */}
-        <form onSubmit={handleSendMessage} className={`p-3 border-t ${
+        <form onSubmit={handleSendMessage} className={`p-3 border-t relative ${
           isDarkMode ? 'border-gray-700' : 'border-gray-200'
         }`}>
+          {/* Username Suggestions */}
+          {showSuggestions && (
+            <div className={`absolute bottom-full left-3 right-3 mb-1 border rounded-lg shadow-lg max-h-32 overflow-y-auto z-10 ${
+              isDarkMode ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'
+            }`}>
+              {getRecentUsers().map((username) => (
+                <div
+                  key={username}
+                  className={`px-3 py-2 text-xs cursor-pointer hover:bg-opacity-80 ${
+                    isDarkMode 
+                      ? 'text-gray-200 hover:bg-gray-700' 
+                      : 'text-gray-800 hover:bg-gray-100'
+                  }`}
+                  onClick={() => handleUsernameClick(username)}
+                >
+                  @{username}
+                </div>
+              ))}
+              {getRecentUsers().length === 0 && (
+                <div className={`px-3 py-2 text-xs ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                }`}>
+                  Нет доступных пользователей
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="flex gap-2">
             <Input
+              ref={inputRef}
               value={messageInput}
-              onChange={(e) => setMessageInput(e.target.value)}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
               placeholder={
                 activeTab === 'global' 
-                  ? 'Сообщение...' 
+                  ? 'Сообщение... (@ для упоминаний)' 
                   : lastMention 
                     ? `Сообщение для @${lastMention}...`
                     : 'Упомяните @никнейм...'
