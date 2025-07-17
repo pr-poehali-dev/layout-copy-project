@@ -23,6 +23,7 @@ import Filters from "@/components/Filters";
 import ListingCard from "@/components/ListingCard";
 import SocialBanner from "@/components/SocialBanner";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
 import { sampleListings } from "@/data/sampleListings";
 import { translations } from "@/data/translations";
 import type { Language } from "@/types";
@@ -152,16 +153,8 @@ const Index = () => {
                 <Icon name={hasGradient ? "Palette" : "Square"} size={14} />
               </Button>
 
-              {/* Messages Button */}
-              <Button
-                size="sm"
-                variant="outline"
-                className="h-8 sm:h-9 px-2 sm:px-3 text-xs sm:text-sm"
-                onClick={() => window.location.href = '/messages'}
-              >
-                <Icon name="MessageCircle" size={14} className="sm:mr-1" />
-                <span className="hidden sm:inline">Чаты</span>
-              </Button>
+              {/* Chat Widget */}
+              <ChatWidget isDarkMode={isDarkMode} />
 
               {/* Add Listing Button */}
               <Dialog open={showAddForm} onOpenChange={setShowAddForm}>
